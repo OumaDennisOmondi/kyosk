@@ -118,3 +118,12 @@ jobs:
         cd k8s
         sed -i 's|kyosk-backend:.*|ghcr.io/${{ env.REGISTRY }}/kyosk-backend:${{ env.IMAGE_TAG }}|' deployment.yaml
         sed -i 's|kyosk-frontend:.*|ghcr.io/${{ env.REGISTRY }}/kyosk-frontend:${{ env.IMAGE_TAG }}|' deployment.yaml
+    
+    - name: Commit changes to Kubernetes manifests
+      run: |
+        cd k8s
+        git add deployment.yaml
+        git commit -m "Update Docker image tags in Kubernetes manifests"
+        git push origin main
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}     

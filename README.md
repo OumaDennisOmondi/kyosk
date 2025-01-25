@@ -81,6 +81,8 @@ docker build -t kyosk-backend .
 docker run -d --name kyosk-backend \
   --network kyosk-network \
   -p 8080:8080 \
+  -e MONGODB_URI=mongodb://admin:password123@mongodb:27017 \
+  -e MONGODB_DATABASE=booksdb \
   kyosk-backend
 ```
 
@@ -90,6 +92,7 @@ cd frontend
 docker build -t kyosk-frontend .
 docker run -d --name kyosk-frontend \
   -p 3000:80 \
+  -e REACT_APP_API_URL=http://localhost:8080 \
   kyosk-frontend
 ```
 
@@ -126,6 +129,11 @@ minikube addons enable ingress
 minikube addons enable metrics-server
 ```
 
+3. Verify ingress addon status:
+```bash
+minikube addons list | grep ingress
+```
+
 ### Deployment Steps
 
 1. Create namespace:
@@ -153,6 +161,7 @@ kubectl apply -f k8s/
 ```bash
 kubectl get pods -n kyosk
 kubectl get services -n kyosk
+kubectl get ingress -n kyosk
 ```
 
 6. Access the application:
