@@ -104,15 +104,20 @@ docker logs kyosk-frontend
 
 ## Kubernetes Deployment
 
-### Onclick Deployment on Minikube(Tested on MacOs)
+### Onclick Deployment on Minikube(Tested on MacOs Only)
 Should work on LInux as well.
 ```bash
 chmod +x ./deploy-minikube.sh
 sudo ./deploy-minikube.sh
 ```
+On a separate terminal, Start Minikube tunnel after the above completes
+
+```bash
+sudo minikube tunnel 
+```
 
 
-### Prerequisites
+### Step by Step Deployment on Minikube
 
 1. Start Minikube with sufficient resources:
 ```bash

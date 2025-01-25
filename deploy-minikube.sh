@@ -61,12 +61,6 @@ kubectl apply -f k8s/ingress.yaml -n kyosk
 # Wait for all pods to be ready
 wait_for_pods "kyosk"
 
-# Start Minikube tunnel in the background
-echo "Starting Minikube tunnel..."
-
-    # For macOS, use sudo
-sudo minikube tunnel > /dev/null 2>&1 &
-
 # Add entry to /etc/hosts if it doesn't exist
 if ! grep -q "kyosk.local" /etc/hosts; then
     echo "Adding kyosk.local to /etc/hosts..."
