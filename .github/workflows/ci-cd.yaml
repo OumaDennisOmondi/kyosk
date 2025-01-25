@@ -115,6 +115,6 @@ jobs:
 
     - name: Update Kubernetes Manifests
       run: |
-        pip install yq
-        yq eval '.spec.template.spec.containers[0].image = "${{ env.REGISTRY }}/kyosk-backend:${{ env.IMAGE_TAG }}"' -i k8s/deployment.yaml
-        yq eval '.spec.template.spec.containers[1].image = "${{ env.REGISTRY }}/kyosk-frontend:${{ env.IMAGE_TAG }}"' -i k8s/deployment.yaml
+        cd k8s
+        sed -i 's|kyosk-backend:.*|ghcr.io/${{ env.REGISTRY }}/kyosk-backend:${{ env.IMAGE_TAG }}|' deployment.yaml
+        sed -i 's|kyosk-frontend:.*|ghcr.io/${{ env.REGISTRY }}/kyosk-frontend:${{ env.IMAGE_TAG }}|' deployment.yaml
