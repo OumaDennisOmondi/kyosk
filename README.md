@@ -81,8 +81,6 @@ docker build -t kyosk-backend .
 docker run -d --name kyosk-backend \
   --network kyosk-network \
   -p 8080:8080 \
-  -e MONGODB_URI=mongodb://admin:password123@mongodb:27017 \
-  -e MONGODB_DATABASE=booksdb \
   kyosk-backend
 ```
 
@@ -127,11 +125,9 @@ minikube start --cpus 2 --memory 4096
 ```bash
 minikube addons enable ingress
 minikube addons enable metrics-server
-```
 
-3. Verify ingress addon status:
-```bash
-minikube addons list | grep ingress
+# Verify ingress controller is running
+kubectl get pods -n ingress-nginx
 ```
 
 ### Deployment Steps
@@ -161,7 +157,6 @@ kubectl apply -f k8s/
 ```bash
 kubectl get pods -n kyosk
 kubectl get services -n kyosk
-kubectl get ingress -n kyosk
 ```
 
 6. Access the application:
