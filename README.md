@@ -39,7 +39,7 @@ This project demonstrates a containerized full-stack application deployment usin
 - Minikube
 - kubectl
 
-### Onclick Deployment on Docker
+### One Click Deployment on Docker
 ```bash
 chmod +x ./deploy-local.sh
 sudo ./deploy-local.sh
@@ -104,18 +104,12 @@ docker logs kyosk-frontend
 
 ## Kubernetes Deployment
 
-### Onclick Deployment on Minikube(Tested on MacOs Only)
+### One Click Deployment on Minikube(Tested on MacOs Only)
 Should work on LInux as well.
 ```bash
 chmod +x ./deploy-minikube.sh
 sudo ./deploy-minikube.sh
 ```
-On a separate terminal, Start Minikube tunnel after the above completes
-
-```bash
-sudo minikube tunnel 
-```
-
 
 ### Step by Step Deployment on Minikube
 
