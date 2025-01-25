@@ -39,7 +39,13 @@ This project demonstrates a containerized full-stack application deployment usin
 - Minikube
 - kubectl
 
-### Building and Running with Docker
+### Onclick Deployment on Docker
+```bash
+chmod +x ./deploy-local.sh
+./deploy-local.sh
+```
+
+### Step by Step Building and Running with Docker
 
 1. Create a Docker network:
 ```bash
