@@ -41,22 +41,6 @@ This project demonstrates a containerized full-stack application deployment usin
 - Minikube
 - kubectl
 
-### Environment Configuration
-
-1. Backend Configuration:
-   - Create `.env` file in backend directory:
-   ```
-   MONGODB_URI=mongodb://admin:password123@localhost:27017
-   MONGODB_DATABASE=booksdb
-   SERVER_PORT=8080
-   ```
-
-2. Frontend Configuration:
-   - Create `.env` file in frontend directory:
-   ```
-   VITE_API_URL=http://localhost:8080
-   ```
-
 ### Building and Running with Docker
 
 1. Create a Docker network:
@@ -110,7 +94,6 @@ docker logs kyosk-frontend
 3. Access the applications:
 - Frontend: http://localhost:3000
 - Backend API: http://localhost:8080/api/books
-- Swagger UI: http://localhost:8080/swagger-ui.html
 
 ## Kubernetes Deployment
 
@@ -137,6 +120,8 @@ minikube addons enable metrics-server
 ```bash
 # Create a Personal Access Token (PAT) with read:packages scope on GitHub
 
+# The repo is public, this step isnt mandatory.
+
 # Create a secret for GitHub Container Registry
 kubectl create secret docker-registry ghcr-secret \
   --namespace kyosk \
@@ -144,11 +129,6 @@ kubectl create secret docker-registry ghcr-secret \
   --docker-username=YOUR_GITHUB_USERNAME \
   --docker-password=YOUR_PAT_TOKEN
 
-# Patch default service account to use the secret
-kubectl patch serviceaccount default \
-  -n kyosk \
-  -p '{"imagePullSecrets": [{"name": "ghcr-secret"}]}'
-```
 
 ### Deployment Steps
 
@@ -181,8 +161,25 @@ kubectl get services -n kyosk
 
 6. Access the application:
 ```bash
-minikube service kyosk-frontend --url -n kyosk
-```
+# Get Minikube IP address
+minikube ip
+
+# Add the following entry to your /etc/hosts file (requires sudo)
+# Replace <MINIKUBE_IP> with the IP address from above command, the 2nd maps the loopback adress to the same hostname too, run both
+sudo echo "<MINIKUBE_IP> kyosk.local" >> /etc/hosts
+sudo echo "127.0.0.1 kyosk.local" >> /etc/hosts 
+
+# For macOS users using Docker driver
+# Run minikube tunnel with sudo (required for Ingress to work)
+sudo minikube tunnel
+
+# Access the application using the domain
+http://kyosk.local
+
+
+Note: The hosts file location varies by operating system:
+- Linux/macOS: `/etc/hosts`
+- Windows: `C:\Windows\System32\drivers\etc\hosts`
 
 ## CI/CD Pipeline
 
@@ -200,8 +197,7 @@ The GitHub Actions workflow (`ci-cd.yaml`) automates the following steps:
 
 3. Deploy to Kubernetes
    - Updates deployment manifests
-   - Applies changes to Minikube cluster
-   - Verifies deployment status
+   
 
 ### Environment Variables
 
