@@ -42,7 +42,7 @@ This project demonstrates a containerized full-stack application deployment usin
 ### Onclick Deployment on Docker
 ```bash
 chmod +x ./deploy-local.sh
-./deploy-local.sh
+sudo ./deploy-local.sh
 ```
 
 ### Step by Step Building and Running with Docker
@@ -103,6 +103,14 @@ docker logs kyosk-frontend
 
 
 ## Kubernetes Deployment
+
+### Onclick Deployment on Minikube(Tested on MacOs)
+Should work on LInux as well.
+```bash
+chmod +x ./deploy-minikube.sh
+sudo ./deploy-minikube.sh
+```
+
 
 ### Prerequisites
 
@@ -173,9 +181,8 @@ kubectl get all -n kyosk
 minikube ip
 
 # Add the following entry to your /etc/hosts file (requires sudo) to pint to the nginx ingress
-# Replace <MINIKUBE_IP> with the IP address from above command, the 2nd maps the loopback adress to the same hostname too, run both
 
-echo "<MINIKUBE_IP> kyosk.local" | sudo tee -a /etc/hosts
+
 echo "127.0.0.1 kyosk.local" | sudo tee -a /etc/hosts
 
 
