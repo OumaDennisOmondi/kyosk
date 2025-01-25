@@ -116,8 +116,8 @@ jobs:
     - name: Update Kubernetes Manifests
       run: |
         cd k8s
-        sed -i "s|image: ghcr.io/.*/kyosk-backend:.*|image: ghcr.io/$REGISTRY/kyosk-backend:$IMAGE_TAG|" deployment.yaml
-        sed -i "s|image: ghcr.io/.*/kyosk-frontend:.*|image: ghcr.io/$REGISTRY/kyosk-frontend:$IMAGE_TAG|" deployment.yaml
+        sed -i "s|image: ghcr.io/.*/kyosk-backend:.*|image: ghcr.io/${REGISTRY#ghcr.io/}/kyosk-backend:$IMAGE_TAG|" deployment.yaml
+        sed -i "s|image: ghcr.io/.*/kyosk-frontend:.*|image: ghcr.io/${REGISTRY#ghcr.io/}/kyosk-frontend:$IMAGE_TAG|" deployment.yaml
     - name: Set up Git configuration
       run: |
         git config user.name github-actions
