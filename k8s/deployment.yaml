@@ -12,8 +12,8 @@ spec:
       labels:
         app: kyosk-backend
     spec:
-      imagePullSecrets:
-      - name: ghcr-secret
+      #imagePullSecrets:
+      #- name: ghcr-secret
       containers:
       - name: kyosk-backend
         image: ghcr.io/oumadennisomondi/kyosk-backend:latest
@@ -65,8 +65,8 @@ spec:
       labels:
         app: kyosk-frontend
     spec:
-      imagePullSecrets:
-      - name: ghcr-secret
+      #imagePullSecrets:
+      #- name: ghcr-secret
       containers:
       - name: kyosk-frontend
         image: ghcr.io/oumadennisomondi/kyosk-frontend:latest

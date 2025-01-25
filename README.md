@@ -71,11 +71,8 @@ docker run -d --name kyosk-backend \
 4. Build and run the frontend:
 ```bash
 cd frontend
-docker build -t kyosk-frontend .
-docker run -d --name kyosk-frontend \
-  -p 3000:80 \
-  -e REACT_APP_API_URL=http://localhost:8080 \
-  kyosk-frontend
+docker build -t kyosk-frontend --build-arg REACT_APP_API_URL=http://localhost:8080 .
+docker run -d --name kyosk-frontend -p 3000:80 kyosk-frontend
 ```
 
 ### Verifying the Setup
@@ -116,7 +113,7 @@ kubectl get pods -n ingress-nginx
 minikube addons enable metrics-server
 ```
 
-3. Create GitHub Container Registry Secret:
+3. Create GitHub Container Registry Secret:(Optional)
 ```bash
 # Create a Personal Access Token (PAT) with read:packages scope on GitHub
 
@@ -129,7 +126,7 @@ kubectl create secret docker-registry ghcr-secret \
   --docker-username=YOUR_GITHUB_USERNAME \
   --docker-password=YOUR_PAT_TOKEN
 
-
+```
 ### Deployment Steps
 
 1. Create namespace:
@@ -187,8 +184,7 @@ The GitHub Actions workflow (`ci-cd.yaml`) automates the following steps:
 
 1. Build and Test
    - Runs unit tests for backend and frontend
-   - Performs code quality checks
-   - Generates test coverage reports
+
 
 2. Build and Push Images
    - Builds Docker images for both services
