@@ -56,7 +56,7 @@ jobs:
       run: |
         echo "REGISTRY=${REPO_NAME,,}" >>${GITHUB_ENV}
       env:
-        REPO_NAME: 'ghcr.io/${{ github.repository }}'
+        REPO_NAME: 'ghcr.io/${{ github.repository_owner }}'
 
 
     - name: Set up JDK 17
