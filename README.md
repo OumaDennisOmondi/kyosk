@@ -121,13 +121,33 @@ docker logs kyosk-frontend
 minikube start --cpus 2 --memory 4096
 ```
 
-2. Enable required addons:
+2. Enable and verify required addons:
 ```bash
+# Enable Ingress addon
 minikube addons enable ingress
-minikube addons enable metrics-server
 
-# Verify ingress controller is running
+# Verify Ingress controller is running
 kubectl get pods -n ingress-nginx
+
+# Enable metrics server
+minikube addons enable metrics-server
+```
+
+3. Create GitHub Container Registry Secret:
+```bash
+# Create a Personal Access Token (PAT) with read:packages scope on GitHub
+
+# Create a secret for GitHub Container Registry
+kubectl create secret docker-registry ghcr-secret \
+  --namespace kyosk \
+  --docker-server=ghcr.io \
+  --docker-username=YOUR_GITHUB_USERNAME \
+  --docker-password=YOUR_PAT_TOKEN
+
+# Patch default service account to use the secret
+kubectl patch serviceaccount default \
+  -n kyosk \
+  -p '{"imagePullSecrets": [{"name": "ghcr-secret"}]}'
 ```
 
 ### Deployment Steps

@@ -50,7 +50,7 @@ jobs:
     needs: test
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write
       packages: write
     steps:
     - uses: actions/checkout@v3
@@ -121,14 +121,14 @@ jobs:
     
     - name: Set up Git configuration
       run: |
-        git config --global user.name "github-actions[bot]"
-        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+        git config user.name github-actions
+        git config user.email github-actions@github.com
 
     - name: Commit changes to Kubernetes manifests
       run: |
         cd k8s
         git add deployment.yaml
         git commit -m "Update Docker image tags in Kubernetes manifests"
-        git push origin ${GITHUB_REF##*/}
+        git push 
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}     
