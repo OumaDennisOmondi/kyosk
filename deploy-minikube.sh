@@ -68,8 +68,16 @@ if ! grep -q "kyosk.local" /etc/hosts; then
 fi
 
 echo "Deployment completed successfully!"
-echo "You can access the application at: http://kyosk.local"
+echo "You can access the frontend at: http://kyosk.local"
+echo "You can access the backend at: http://kyosk.local/api/books"
 
 # Display pod status
 echo "\nCurrent pod status:"
 kubectl get pods -n kyosk
+
+echo "You can access the frontend at: http://kyosk.local"
+echo "You can access the backend at: http://kyosk.local/api/books"
+
+echo "Starting tunnel, will block the terminal."
+
+sudo minikube tunnel 
