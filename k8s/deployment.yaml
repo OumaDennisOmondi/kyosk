@@ -17,7 +17,7 @@ spec:
       #- name: ghcr-secret
       containers:
       - name: kyosk-backend
-        image: ghcr.io/oumadennisomondi/kyosk-backend:b1195aca9c350c3351e706e029b59738ffdb6a7b
+        image: ghcr.io/oumadennisomondi/kyosk-backend:5297300bfef4859f878de09ca8a205c38497ddb5
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8080
@@ -85,7 +85,7 @@ spec:
       #- name: ghcr-secret
       containers:
       - name: kyosk-frontend
-        image: ghcr.io/oumadennisomondi/kyosk-frontend:b1195aca9c350c3351e706e029b59738ffdb6a7b
+        image: ghcr.io/oumadennisomondi/kyosk-frontend:5297300bfef4859f878de09ca8a205c38497ddb5
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 80
