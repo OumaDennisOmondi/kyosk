@@ -39,14 +39,22 @@ This project demonstrates a containerized full-stack application deployment usin
 - Minikube
 - kubectl
 
-### One Click Deployment on Docker
+### One Click Deployments
+#### 1. Docker
 ```bash
 chmod +x ./deploy-local.sh
-sudo ./deploy-local.sh
+./deploy-local.sh
 ```
 
-### Step by Step Building and Running with Docker
+#### 2. Minikube(Tested on MacOs Only)
+Should work on LInux as well.
+```bash
+chmod +x ./deploy-minikube.sh
+./deploy-minikube.sh
+```
 
+### Step by Step Deployments 
+#### 1. Docker
 1. Create a Docker network:
 ```bash
 docker network create kyosk-network
@@ -102,16 +110,8 @@ docker logs kyosk-frontend
 ![App Screenshot](screenshots/img3.jpeg "App Screenshot")
 
 
-## Kubernetes Deployment
 
-### One Click Deployment on Minikube(Tested on MacOs Only)
-Should work on LInux as well.
-```bash
-chmod +x ./deploy-minikube.sh
-sudo ./deploy-minikube.sh
-```
-
-### Step by Step Deployment on Minikube
+### K8s - Minikube
 
 1. Start Minikube with sufficient resources:
 ```bash
@@ -127,20 +127,6 @@ minikube addons enable ingress
 kubectl get pods -n ingress-nginx
 
 
-3. Create GitHub Container Registry Secret:(Optional)
-```bash
-# Create a Personal Access Token (PAT) with read:packages scope on GitHub
-
-# The repo is public, this step isnt mandatory.
-
-# Create a secret for GitHub Container Registry
-kubectl create secret docker-registry ghcr-secret \
-  --namespace kyosk \
-  --docker-server=ghcr.io \
-  --docker-username=YOUR_GITHUB_USERNAME \
-  --docker-password=YOUR_PAT_TOKEN
-
-```
 ### Deployment Steps
 
 1. Create namespace:
