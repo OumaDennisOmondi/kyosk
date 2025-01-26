@@ -1,9 +1,10 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: kyosk-backend
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: kyosk-backend
@@ -16,29 +17,32 @@ spec:
       #- name: ghcr-secret
       containers:
       - name: kyosk-backend
-        image: ghcr.io/oumadennisomondi/kyosk-backend:8c390f14920e6545d3ab320303e8386cdaeeb2a3
+        image: ghcr.io/oumadennisomondi/kyosk-backend:b1195aca9c350c3351e706e029b59738ffdb6a7b
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8080
         resources:
           limits:
             memory: "512Mi"
+            cpu: "500m"
           requests:
             memory: "250Mi"
+            cpu: "250m"
         env:
         - name: SPRING_DATA_MONGODB_HOST
           valueFrom:
             configMapKeyRef:
-              name: mongodb-config
+              name: kyosk-config
               key: mongodb-host
         - name: SPRING_DATA_MONGODB_PORT
           valueFrom:
             configMapKeyRef:
-              name: mongodb-config
+              name: kyosk-config
               key: mongodb-port
         - name: SPRING_DATA_MONGODB_DATABASE
           valueFrom:
             configMapKeyRef:
-              name: mongodb-config
+              name: kyosk-config
               key: mongodb-database
         - name: SPRING_DATA_MONGODB_USERNAME
           valueFrom:
@@ -50,6 +54,18 @@ spec:
             secretKeyRef:
               name: mongodb-secret
               key: password
+        readinessProbe:
+          httpGet:
+            path: api/health
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: api/health
+            port: 8080
+          initialDelaySeconds: 15
+          periodSeconds: 20
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -69,15 +85,33 @@ spec:
       #- name: ghcr-secret
       containers:
       - name: kyosk-frontend
-        image: ghcr.io/oumadennisomondi/kyosk-frontend:8c390f14920e6545d3ab320303e8386cdaeeb2a3
-        imagePullPolicy: Always
+        image: ghcr.io/oumadennisomondi/kyosk-frontend:b1195aca9c350c3351e706e029b59738ffdb6a7b
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 80
-        env:
-        - name: REACT_APP_API_URL
-          value: "http://kyosk.local"
         resources:
           limits:
             memory: "512Mi"
+            cpu: "500m"
           requests:
             memory: "250Mi"
+            cpu: "250m"
+        env:
+        - name: REACT_APP_API_URL
+          valueFrom:
+            configMapKeyRef:
+              name: kyosk-config
+              key: api-url
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 15
+          periodSeconds: 20
+

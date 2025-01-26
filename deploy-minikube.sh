@@ -8,7 +8,7 @@ command_exists() {
 # Function to check if a pod is ready
 wait_for_pods() {
     namespace=$1
-    echo "Waiting for pods in namespace $namespace to be ready..."
+    echo "Just a moment, waiting for pods in namespace $namespace to be ready..."
     kubectl wait --for=condition=ready pod --all -n "$namespace" --timeout=300s
 }
 
@@ -33,7 +33,7 @@ echo "Enabling Ingress addon..."
 minikube addons enable ingress
 
 # Wait for Ingress controller to be ready
-echo "Waiting for Ingress controller to be ready..."
+echo "Just a moment, waiting for Ingress controller to be ready..."
 kubectl wait --for=condition=ready pod -l app.kubernetes.io/component=controller -n ingress-nginx --timeout=300s
 
 # Create namespace if it doesn't exist
@@ -49,7 +49,7 @@ kubectl apply -f k8s/secret.yaml -n kyosk
 kubectl apply -f k8s/mongodb.yaml -n kyosk
 
 # Wait for MongoDB to be ready
-echo "Waiting for MongoDB to be ready..."
+echo "Just a moment, waiting for MongoDB to be ready..."
 kubectl wait --for=condition=ready pod -l app=mongodb -n kyosk --timeout=300s
 
 # Deploy application components
