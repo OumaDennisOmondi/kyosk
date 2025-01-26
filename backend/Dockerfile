@@ -34,7 +34,7 @@ ENV JAVA_OPTS="-Xms256m -Xmx512m"
 EXPOSE 8080
 
 # Add a health check
-HEALTHCHECK --interval=30s --timeout=5s --retries=3 CMD curl --fail http://localhost:8080/actuator/health || exit 1
+HEALTHCHECK --interval=30s --timeout=5s --retries=3 CMD curl --fail http://localhost:8080/api/health || exit 1
 
 # Define the command to run the application
 CMD ["java", "-jar", "-Djava.security.egd=file:/dev/./urandom", "app.jar"]
