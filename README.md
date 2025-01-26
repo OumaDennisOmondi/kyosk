@@ -162,21 +162,20 @@ kubectl get all -n kyosk
 
 3. Access the application:
 ```bash
-# Get Minikube IP address
+# Get Minikube IP address(for LInux)
 minikube ip
 
-# Add the following entry to your /etc/hosts file (requires sudo) to pint to the nginx ingress
-
+# Add entry to your /etc/hosts file (requires sudo) to point to the nginx ingress
 
 echo "127.0.0.1 kyosk.local" | sudo tee -a /etc/hosts
 
-
-# For macOS users using Docker driver
 # Run minikube tunnel with sudo (required for Ingress to work)
 sudo minikube tunnel
 
 # Access the application using the domain
-http://kyosk.local
+http://kyosk.local 
+
+or http://<minikube ip> (for linux only)
 ```
 ![App Screenshot](screenshots/img4.jpeg "App Screenshot")
 
