@@ -1,5 +1,5 @@
 # Build stage
-FROM node:16 AS build
+FROM node:16.20.0 AS build
 
 # Set working directory
 WORKDIR /app
@@ -8,12 +8,12 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install dependencies
-RUN npm install
+RUN npm ci
 
 # Copy source code
 COPY . .
 
-# Set environment variables for local deployment on docker
+# Set environment variables for local deployment on Docker
 ARG REACT_APP_API_URL
 ENV REACT_APP_API_URL=$REACT_APP_API_URL
 
@@ -21,16 +21,19 @@ ENV REACT_APP_API_URL=$REACT_APP_API_URL
 RUN npm run build
 
 # Production stage
-FROM nginx:alpine
+FROM nginx:1.25.0-alpine
 
 # Copy built assets from build stage
 COPY --from=build /app/build /usr/share/nginx/html
 
-# Copy nginx configuration if needed
-# COPY nginx.conf /etc/nginx/conf.d/default.conf
+# Copy nginx configuration
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # Expose port 80
 EXPOSE 80
+
+# Add health check
+HEALTHCHECK --interval=30s --timeout=5s --retries=3 CMD curl -f http://localhost/ || exit 1
 
 # Start nginx
 CMD ["nginx", "-g", "daemon off;"]
